@@ -1,9 +1,14 @@
 #include "drv_can.h"
 #include "debug.h"
+#include "pid.h"
 CAN_TxHeaderTypeDef TxMeg;
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
 MotorMsg Motor1,Motor2,Motor3,Motor4;
+uint16_t pos_target;
+extern Pid pos_pid;
+extern float angle;
+extern int16_t speed;
 
 
 //滤波器初始化函数
@@ -50,11 +55,11 @@ void CAN_All_Init(void)
 	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);//这个也是使能中断的作用，和上一行用其中一个就行
 
     //配置cbuemx的时候顺便把can2配置了，但是这次做的这几个拓展里我都没有用到can2
-	//CAN_Filter_Init(&hcan2);
-	//HAL_CAN_Start(&hcan2);
-	//__HAL_CAN_ENABLE_IT(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
+	CAN_Filter_Init(&hcan2);
+	HAL_CAN_Start(&hcan2);
+	__HAL_CAN_ENABLE_IT(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
     //这个也是使能中断的作用，和上一行用其中一个就行
-	//HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
+	HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
 
 	//检测关键传参
 	assert_param(hcan != NULL);
@@ -146,6 +151,7 @@ void CAN_SendCurrent(int16_t current1,int16_t current2,int16_t current3,int16_t 
 
 
 	/*这四个电机的数据必须写完整了*/
+
 	send_data[4] = (current3 >> 8);
 	send_data[5] = current3;
 
@@ -157,6 +163,36 @@ void CAN_SendCurrent(int16_t current1,int16_t current2,int16_t current3,int16_t 
 
 	//调用自定义的CAN_TxMessage发送函数
 	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+}
+
+
+
+void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 1;
+	uint8_t send_data[6];
+	tx_msg.StdId = CAN_SendMessage_VAL;
+	tx_msg.IDE = CAN_ID_STD;
+	tx_msg.RTR = CAN_RTR_DATA;
+	tx_msg.DLC = 0x06;
+	send_data[0] = (angle >> 8);
+	send_data[1] = angle & 0xff;
+
+	send_data[2] = (pos_target >> 8);//send_data[2]存高八位的数据一个字节
+	send_data[3] = pos_target;////send_data[3]存低八位的数据一个字节
+
+
+	/*这四个电机的数据必须写完整了*/
+	send_data[4] = (speed >> 8);
+	send_data[5] = speed;
+
+
+	//不要忘记发送函数
+	CAN_TxMessage(&hcan2, &tx_msg, send_data);
+
+
+
 }
 
 
@@ -235,10 +271,26 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 			}
 
 
+		}
+	}
+	if (hcan->Instance == CAN2)
+	{
+		if (HAL_Status == HAL_OK)                                                    //在这里接收数据
+		{
+			if(RxMeg.StdId == CAN_SINGLECHIP)
+			{
+				pos_target = (uint16_t)(recvData[0] << 8 | recvData[1]);
+				setPidTargetwithRamp(&pos_pid,pos_target);
+
 			}
 		}
 
+	}
 }
+
+
+
+
 
 
 

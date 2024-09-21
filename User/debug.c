@@ -7,7 +7,7 @@
 #include "init.h"
 #include "string.h"
 #include "stdlib.h"
-
+#include "drv_can.h"
 #define TX_BUF_SIZE 512
 uint8_t send_buf[TX_BUF_SIZE];
 //float index_vec=0;
@@ -120,7 +120,8 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
     vec_pid.paramater.ki=index_vec_ki;
     pos_pid.paramater.kp=index_pos_kp;
     pos_pid.paramater.kd=index_pos_kd;
- setPidTargetwithRamp(&pos_pid,index);//设置pid的外环位置环目标
+    setPidTargetwithRamp(&pos_pid,index);//设置pid的外环位置环目标
+    //CAN_SINGLECHIP_SendVal(index);
         //}
     //测试串级pid部分期望速度的实现
     //usart_printf("%.2f,%.2f",index,index_vec);

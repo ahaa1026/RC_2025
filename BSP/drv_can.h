@@ -8,7 +8,10 @@ typedef enum
     CAN_REC_ID2 = 0X202,//ID为2
     CAN_REC_ID3 = 0X203,//ID为3
     CAN_REC_ID4 = 0X204,//ID为4
-    CAN_SEND_ID = 0X200//发送ID
+    CAN_SEND_ID = 0X200,//发送ID
+
+    CAN_SINGLECHIP = 0x405,
+    CAN_SendMessage_VAL = 0x406
 
     //这里设置ID
 } CAN_Msg_enum;
@@ -47,6 +50,7 @@ typedef struct
 
 float Angle_Consecutive(float angle_now);
 float Angle_Consecutive1(float angle_now1);
+void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed);
 
 void CAN_All_Init(void);
 void CAN_Filter_Init(CAN_HandleTypeDef* hcan);

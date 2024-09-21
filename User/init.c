@@ -26,7 +26,7 @@ int cnt=1;
 void roboinit()
 {
 //6020串级pid参数
-    PidInit(&vec_pid,15,1.5,0,15000,25000,3000,Normal_state);//60.5
+    PidInit(&vec_pid,14,0.5,0,15000,25000,3000,Normal_state);//60.5
     setPidTarget(&pos_pid,CAN_GetMotorAngel(1)/8191.0f*360.0f);
     PidInit(&pos_pid,2.7,0.000001,0.1,1000,400,3000,Normal_state);
 

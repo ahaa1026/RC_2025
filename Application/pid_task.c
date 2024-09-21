@@ -52,7 +52,9 @@ void pid_task0(void)
     else
     {
         cascade_printf=0;
-        usart_printf("%.2f,%.2f,%d\n",(float)angle,(float)pos_pid.variables.target,speed);
+        //usart_printf("%.2f,%.2f,%d\n",(float)angle,(float)pos_pid.variables.target,speed);
+        CAN_SINGLECHIP_SendMessage((int)angle,(int)pos_pid.variables.target,speed);
+
 
     }
 
