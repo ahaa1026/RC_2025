@@ -77,11 +77,11 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
     HAL_UART_DMAStop(huart);//停止本次DMA传输
 
     //将串口收到的数据进行处理，新的数组存放要传入的数据
-    memcpy(debugRvData ,&debugRvAll[0], 4);//debugRvData接收串口传来的指定位置
-    memcpy(debugRvData_vec_kp ,&debugRvAll[5],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_vec_ki ,&debugRvAll[10],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_pos_kp ,&debugRvAll[15],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_pos_kd ,&debugRvAll[20],4);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData ,&debugRvAll[0], 5);//debugRvData接收串口传来的指定位置
+    memcpy(debugRvData_vec_kp ,&debugRvAll[6],4);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_vec_ki ,&debugRvAll[11],4);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_pos_kp ,&debugRvAll[16],4);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_pos_kd ,&debugRvAll[21],4);//debugRvData_vec接收串口传来的目标速度
     //计算接收到的数据长度，接收到的数据长度等于数组的最大存储长度减去DMA空闲的数据区长度
     uint8_t data_length  = DEBUG_RV_MXSIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx);
 

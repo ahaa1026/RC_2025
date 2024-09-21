@@ -104,6 +104,15 @@
       <workItem from="1726578136616" duration="6258000" />
       <workItem from="1726644972209" duration="14463000" />
     </task>
+    <task id="LOCAL-00001" summary="实现了单片机之间互相发送数据（uint_16收发)，注意不要在can的接收回调函数里直接发，3508参数还有点不太完美">
+      <option name="closed" value="true" />
+      <created>1726887644165</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726887644165</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,5 +122,9 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="实现了单片机之间互相发送数据（uint_16收发)，注意不要在can的接收回调函数里直接发，3508参数还有点不太完美" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现了单片机之间互相发送数据（uint_16收发)，注意不要在can的接收回调函数里直接发，3508参数还有点不太完美" />
   </component>
 </project>
