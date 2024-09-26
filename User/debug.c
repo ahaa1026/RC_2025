@@ -78,10 +78,10 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
 
     //将串口收到的数据进行处理，新的数组存放要传入的数据
     memcpy(debugRvData ,&debugRvAll[0], 5);//debugRvData接收串口传来的指定位置
-    memcpy(debugRvData_vec_kp ,&debugRvAll[6],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_vec_ki ,&debugRvAll[11],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_pos_kp ,&debugRvAll[16],4);//debugRvData_vec接收串口传来的目标速度
-    memcpy(debugRvData_pos_kd ,&debugRvAll[21],4);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_vec_kp ,&debugRvAll[6],5);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_vec_ki ,&debugRvAll[12],5);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_pos_kp ,&debugRvAll[18],5);//debugRvData_vec接收串口传来的目标速度
+    memcpy(debugRvData_pos_kd ,&debugRvAll[24],5);//debugRvData_vec接收串口传来的目标速度
     //计算接收到的数据长度，接收到的数据长度等于数组的最大存储长度减去DMA空闲的数据区长度
     uint8_t data_length  = DEBUG_RV_MXSIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx);
 
@@ -120,7 +120,9 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
     vec_pid.paramater.ki=index_vec_ki;
     pos_pid.paramater.kp=index_pos_kp;
     pos_pid.paramater.kd=index_pos_kd;
-    setPidTargetwithRamp(&pos_pid,index);//设置pid的外环位置环目标
+    //setPidTargetwithRamp(&pos_pid,index);//设置pid的外环位置环目标
+    setPidTarget(&pos_pid,index);//设置pid的外环位置环目标
+
     //CAN_SINGLECHIP_SendVal(index);
         //}
     //测试串级pid部分期望速度的实现

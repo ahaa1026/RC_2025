@@ -53,7 +53,7 @@ include_directories(${includes} Application BSP Controller User)
 
 add_definitions(${defines})
 
-file(GLOB_RECURSE SOURCES ${sources} "BSP/*.*" "Application/*.*" Controller/*.* "User/*.*")
+file(GLOB_RECURSE SOURCES ${sources} "BSP/*.*" "Application/*.*" "Controller/*.*" "User/*.*")
 
 set(LINKER_SCRIPT $${CMAKE_SOURCE_DIR}/${linkerScript})
 

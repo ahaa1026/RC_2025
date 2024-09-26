@@ -54,7 +54,7 @@ include_directories(Core/Inc Drivers/STM32F4xx_HAL_Driver/Inc Drivers/STM32F4xx_
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F405xx)
 
-file(GLOB_RECURSE SOURCES "Core/*.*" "Middlewares/*.*" "Drivers/*.*" "BSP/*.*" "Application/*.*" Controller/*.* "User/*.*")
+file(GLOB_RECURSE SOURCES "Core/*.*" "Middlewares/*.*" "Drivers/*.*" "BSP/*.*" "Application/*.*" "Controller/*.*" "User/*.*")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F405RGTX_FLASH.ld)
 

@@ -150,9 +150,9 @@ void pid_task(void *argument)
   for(;;)
   {
     CurrentTime1=xTaskGetTickCount();
-    pid_task0();
-    //usart_printf("%d\n",123);
-    vTaskDelayUntil(&CurrentTime1,1);
+    //pid_task0();
+    usart_printf("%d\n",123);
+    vTaskDelayUntil(&CurrentTime1,5);
 
   }
   /* USER CODE END pid_task */

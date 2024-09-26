@@ -9,8 +9,10 @@ uint16_t pos_target;
 extern Pid pos_pid;
 extern float angle;
 extern int16_t speed;
-
-
+uint8_t single;
+#include <string.h>
+ControlData FeedBack_Data;
+ControlData Final_Data;
 //滤波器初始化函数
 //这里先会熟练写代码，具体原理还需要对can的滤波器再探索一下
 void CAN_Filter_Init(CAN_HandleTypeDef* hcan)
@@ -101,9 +103,9 @@ float Angle_Consecutive(float angle_now)
 {
 	float angle_this;//结合angle_last=angle_this;
 	angle_this = angle_now;//将电机通过can传来的原始数据先保存在
-	if ((angle_this - angle_last) > 300)//角度连续化的同时进行的角度积累，需要仔细想一想就很清楚的意思
+	if ((angle_this - angle_last) > 100)//角度连续化的同时进行的角度积累，需要仔细想一想就很清楚的意思
 		rotate_times--;
-	if ((angle_this - angle_last) < -300)
+	if ((angle_this - angle_last) < -100)
 		rotate_times++;
 	angle_now = angle_this + rotate_times * 360.0f;
 	angle_last=angle_this;//结合angle_this = angle_now;进行编码器读取的原始值的保存
@@ -118,9 +120,9 @@ float Angle_Consecutive1(float angle_now1)
 {
 	float angle_this1;
 	angle_this1 = angle_now1;
-	if ((angle_this1 - angle_last) > 300)
+	if ((angle_this1 - angle_last) > 100)
 		rotate_times--;//下溢出，减小一圈
-	if ((angle_this1 - angle_last) < -300)
+	if ((angle_this1 - angle_last) < -100)
 		rotate_times++;//上溢出，增加一圈
 	angle_now1 = angle_this1 + rotate_times * 360.0f;
 	angle_last=angle_this1;
@@ -159,10 +161,59 @@ void CAN_SendCurrent(int16_t current1,int16_t current2,int16_t current3,int16_t 
 	send_data[7] = current4;
 
 
-
-
 	//调用自定义的CAN_TxMessage发送函数
 	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+}
+
+void CAN_CMD_MOTOR_ENABLE(uint32_t id)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 0;
+	uint8_t send_data[8];
+
+	tx_msg.StdId = id;
+	tx_msg.IDE = CAN_ID_STD;
+	tx_msg.RTR = CAN_RTR_DATA;
+	tx_msg.DLC = 0x00;
+
+	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+}
+
+
+void CAN_CMD_MOTOR_DISABLE(uint32_t id)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 0;
+	uint8_t send_data[8];
+
+	tx_msg.StdId = id;
+	tx_msg.IDE = CAN_ID_STD;
+	tx_msg.RTR = CAN_RTR_DATA;
+	tx_msg.DLC = 0x00;
+
+	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+}
+
+void CAN_SEND_DATA(uint16_t id, int16_t current)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 0;
+	uint8_t send_data[8];
+
+	tx_msg.StdId = id;
+	tx_msg.IDE = CAN_ID_STD;
+	tx_msg.RTR = CAN_RTR_DATA;
+	tx_msg.DLC = 0x08;
+
+	send_data[0] = (current >> 8);
+	send_data[1] = current & 0xff;
+
+
+
+
+
+	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+
 }
 
 
@@ -171,7 +222,7 @@ void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
 {
 	CAN_TxHeaderTypeDef tx_msg;
 	uint32_t send_mail_box = 1;
-	uint8_t send_data[6];
+	uint8_t send_data[8];
 	tx_msg.StdId = CAN_SendMessage_VAL;
 	tx_msg.IDE = CAN_ID_STD;
 	tx_msg.RTR = CAN_RTR_DATA;
@@ -187,10 +238,8 @@ void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
 	send_data[4] = (speed >> 8);
 	send_data[5] = speed;
 
-
 	//不要忘记发送函数
 	CAN_TxMessage(&hcan2, &tx_msg, send_data);
-
 
 
 }
@@ -228,7 +277,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 				Motor1.Connected = 1;
 				//我在这里说明：can总线读回来的一个数据是按字节读取，我们需要的数据是两个字节为一个需要数据
 				//这里使用移位的方式实现了数据还原和拼接
+
 				Motor1.MotorAngle = (int16_t)(recvData[0] << 8 | recvData[1]);     //初始值为0~8191
+				if(Motor1.cnt == 0)
+				{
+					Motor1.offset_angle=Motor1.MotorAngle;
+					Motor1.cnt += 1;
+				}
+				//Motor1.cnt += 1;
+
 				Motor1.MotorSpeed = (int16_t)(recvData[2] << 8 | recvData[3]);     //prm
 				Motor1.MotorTorque = (int16_t)(recvData[4] << 8 | recvData[5]);    //转矩(和电流成正比，也和加速度成正比)
 				Motor1.MotorTempture = (int16_t)(recvData[6]);                     //温度
@@ -271,6 +328,26 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 			}
 
 
+            if (RxMeg.StdId == Control_ID1_Receive)
+            {
+            	FeedBack_Data.Angle = recvData[0] | recvData[1] << 8 | ((recvData[2] << 16) & 0x0FFFFF);
+            	FeedBack_Data.Speed = ((recvData[2] >> 4) & 0x0F) | recvData[3] << 4 | recvData[4] << 12;
+            	FeedBack_Data.Torque = recvData[5] | recvData[6] << 8;
+            	FeedBack_Data.Temperature_flag = recvData[7] & 0x01;
+            	FeedBack_Data.Temperature = (recvData[7] >> 1) & 0x7F;
+
+            	Final_Data.Angle = 80.0f * FeedBack_Data.Angle / 1048575 -40;
+            	Final_Data.Speed = 80.0f * FeedBack_Data.Speed / 1048575 -40;
+            	Final_Data.Torque = 80.0f * FeedBack_Data.Torque / 65535 -40;
+            	Final_Data.Temperature_flag = FeedBack_Data.Temperature_flag;
+            	Final_Data.Temperature = (uint8_t )(220 * FeedBack_Data.Temperature / 127 - 20);
+
+            	return;
+
+            }
+
+
+
 		}
 	}
 	if (hcan->Instance == CAN2)
@@ -279,8 +356,28 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 		{
 			if(RxMeg.StdId == CAN_SINGLECHIP)
 			{
-				pos_target = (uint16_t)(recvData[0] << 8 | recvData[1]);
+				pos_target = (int16_t)(recvData[0] << 8 | recvData[1]);
+				//single = recvData[2];
 				setPidTargetwithRamp(&pos_pid,pos_target);
+				//return;
+
+				//memset(pos_target,0,16); //清零接收缓冲区.为下次接收做准备
+				//此方法无效
+
+
+				/*
+				if(single == 1)
+				{
+					setPidTargetwithRamp(&pos_pid,-pos_target);
+				}
+
+				else
+				{
+					setPidTargetwithRamp(&pos_pid,pos_target);
+				}
+
+*/
+
 
 			}
 		}
@@ -289,6 +386,24 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 }
 
 
+uint32_t CAN_GetDeep_Motor(int8_t Which_x)
+{
+	switch (Which_x)
+	{
+	case 1:
+		{
+			return Final_Data.Angle;
+
+		}
+
+	case 2:
+		{
+			return Final_Data.Speed;
+
+		}
+	}
+
+}
 
 
 
