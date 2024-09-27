@@ -237,7 +237,6 @@ void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
 	//不要忘记发送函数
 	CAN_TxMessage(&hcan2, &tx_msg, send_data);
 
-
 }
 
 

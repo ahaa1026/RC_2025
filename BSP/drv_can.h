@@ -128,7 +128,8 @@ void CAN_CMD_MOTOR_ENABLE(uint32_t stdid);
 void CAN_CMD_MOTOR_DISABLE(uint32_t stdid);
 void CAN_SEND_DATA(uint16_t id, int16_t current);
 uint32_t CAN_GetDeep_Motor(int8_t Which_x);
-
+void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
+                           float Kp,float Kd,float TargetTorque,float stdid);
 
 
 

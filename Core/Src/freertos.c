@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "debug.h"
 #include "pid_task.h"
+#include "drv_can.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -151,7 +152,9 @@ void pid_task(void *argument)
   {
     CurrentTime1=xTaskGetTickCount();
     //pid_task0();
-    usart_printf("%d\n",123);
+    CAN_CMD_MOTOR_CONTROL(0.0f,2.0f,0.0f,3.0f,0.0f,Control_ID1);
+
+    //usart_printf("%d\n",123);
     vTaskDelayUntil(&CurrentTime1,5);
 
   }
