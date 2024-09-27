@@ -194,6 +194,7 @@ void CAN_CMD_MOTOR_DISABLE(uint32_t id)
 	CAN_TxMessage(&hcan1, &tx_msg, send_data);
 }
 
+/*
 void CAN_SEND_DATA(uint16_t id, int16_t current)
 {
 	CAN_TxHeaderTypeDef tx_msg;
@@ -207,14 +208,9 @@ void CAN_SEND_DATA(uint16_t id, int16_t current)
 
 	send_data[0] = (current >> 8);
 	send_data[1] = current & 0xff;
-
-
-
-
-
 	CAN_TxMessage(&hcan1, &tx_msg, send_data);
-
 }
+*/
 
 
 
@@ -244,6 +240,38 @@ void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
 
 }
 
+
+void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
+						   float Kp,float Kd,float TargetTorque,float stdid)
+{
+	TargetAngle = 65535 * TargetAngle / 80.0f + 65535.0f / 2;
+	TargetSpeed = 16383 * TargetSpeed / 80.0f + 16383.0f / 2;
+	Kd = Kd * 5.0f;
+	TargetTorque = 65535 * TargetTorque / 80.0f + 65535.0f / 2;
+
+	CAN_TxHeaderTypeDef tx_msg;
+	uint8_t TxData[8];
+
+	tx_msg.StdId = stdid;//标识CAN ID，同时可以用于仲裁，显性电平的设备继续发，隐性电平的设备闭嘴
+	tx_msg.IDE = CAN_ID_STD;//扩展帧格式标记，标准数据帧中是显性电平0，扩展帧中是隐性电平1
+	tx_msg.RTR = CAN_RTR_DATA;//远程发送请求，数据帧中是显性电平0，遥控帧中是隐性电平1
+	tx_msg.DLC = 0x08;//数据长度的字节数，can协议中数据长度为0~8字节，但我们要知道其实收方如果接收到9以上也不算出错
+
+
+	TxData[0] = (int )TargetAngle;
+	TxData[1] = (int )TargetAngle >> 8;
+
+	TxData[2] = (int )TargetSpeed;
+	TxData[3] = (((int )TargetSpeed >> 8 ) & 0x3F) | ((int )Kp << 6);
+
+	TxData[4] = (int )Kp >> 2;
+	TxData[5] = (int )Kd;
+
+	TxData[6] = (int )TargetTorque;
+	TxData[7] = (int )TargetTorque >> 8;
+
+	CAN_TxMessage(&hcan1, &tx_msg, TxData);
+}
 
 
 //接收回调函数，虚函数，_weak，我在这里重新定义
