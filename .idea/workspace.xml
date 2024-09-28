@@ -31,17 +31,19 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-MinGW" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://D:/RC2025/Application/pid_task.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/BSP/drv_can.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/RC2025/BSP/drv_can.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/RC2025/Core/Src/freertos.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/Core/Src/main.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/User/debug.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/User/init.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/RC2025/Core/Src/freertos.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/RC2025/Core/Src/freertos.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="PerforceDirect.Settings">
     <option name="CHARSET" value="无" />
@@ -60,34 +62,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;OpenOCD 下载并运行.OCD RC2025.executor&quot;: &quot;Run&quot;,
-    &quot;OpenOCD 下载并运行.RC2025.elf.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Deepmotor-master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "OpenOCD 下载并运行.OCD RC2025.executor": "Run",
+    "OpenOCD 下载并运行.RC2025.elf.executor": "Run",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "云深处",
+    "last_opened_file_path": "D:/Deepmotor-master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "CMakeSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="OpenOCD 下载并运行.OCD RC2025">
     <configuration name="RC2025.elf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="RC2025" TARGET_NAME="RC2025.elf" CONFIG_NAME="Debug-MinGW" RUN_TARGET_PROJECT_NAME="RC2025" RUN_TARGET_NAME="RC2025.elf">
       <method v="2">
@@ -150,7 +152,47 @@
       <option name="project" value="LOCAL" />
       <updated>1727435279757</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现">
+      <option name="closed" value="true" />
+      <created>1727505920485</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727505920485</updated>
+    </task>
+    <task id="LOCAL-00005" summary="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现">
+      <option name="closed" value="true" />
+      <created>1727506063176</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727506063176</updated>
+    </task>
+    <task id="LOCAL-00006" summary="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现">
+      <option name="closed" value="true" />
+      <created>1727506233426</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727506233426</updated>
+    </task>
+    <task id="LOCAL-00007" summary="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现">
+      <option name="closed" value="true" />
+      <created>1727506358316</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727506358316</updated>
+    </task>
+    <task id="LOCAL-00008" summary="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现">
+      <option name="closed" value="true" />
+      <created>1727506465424</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727506465424</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +214,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="origin/云深处" />
                       </list>
                     </value>
                   </entry>
@@ -187,6 +229,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="实现了单片机之间互相发送数据（uint_16收发)，注意不要在can的接收回调函数里直接发，3508参数还有点不太完美" />
     <MESSAGE value="云深处（增加了固定的CAN_CMD_MOTOR_CONTROL）函数" />
-    <option name="LAST_COMMIT_MESSAGE" value="云深处（增加了固定的CAN_CMD_MOTOR_CONTROL）函数" />
+    <MESSAGE value="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现" />
+    <MESSAGE value="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);&#10;云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)&#10;的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现" />
   </component>
 </project>

@@ -160,7 +160,8 @@ void pid_task(void *argument)
 云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)
 的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现
     */
-    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);
+
+    //CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);
 
     //Angle=CAN_GetDeep_Motor(1);
     //Speed=CAN_GetDeep_Motor(2);
