@@ -270,6 +270,7 @@ void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
 	TxData[7] = (int )TargetTorque >> 8;
 
 	CAN_TxMessage(&hcan1, &tx_msg, TxData);
+
 }
 
 
@@ -331,6 +332,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 				Motor2.UpDateAngle += 1;
 				return;
 			}
+
 			if (RxMeg.StdId == CAN_REC_ID3)
 			{
 				Motor3.Connected = 1;
