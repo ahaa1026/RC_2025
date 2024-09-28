@@ -43,6 +43,9 @@
     <setting file="mock://D:/RC2025/User/debug.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/RC2025/User/init.c" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="无" />
+  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2024" />

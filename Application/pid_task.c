@@ -15,7 +15,7 @@ float angle;
 float speed;
 extern int start_flag;
 int cascade_printf=0;
-
+int32_t cnt_40 = 0;
 
 void pid_task0(void)
 {
@@ -38,9 +38,19 @@ void pid_task0(void)
      */
 
     angle=CAN_GetDeep_Motor(1);
-    angle=Angle_Consecutive(angle);
-    speed=CAN_GetMotorVelocity(2);
 
+    /*
+    if(angle > 39)
+    {
+        cnt_40++;
+    }
+    */
+
+    angle += cnt_40*40;
+    usart_printf("%.2f\n",angle);
+
+    //speed=CAN_GetMotorVelocity(2);
+/*
     Pid_Update_Gamp(&pos_pid,angle);
     pos_pid.variables.output.output_total=PidGet(&pos_pid,angle,0.1f,3000.0);
 
@@ -53,7 +63,7 @@ void pid_task0(void)
     //CAN_SendCurrent(vec_pid.variables.output.output_total,0,0,0);
     //CAN_SendCurrent(2000,0,0,0);
     CAN_SEND_DATA(Control_ID1,vec_pid.variables.output.output_total);
-
+*/
     if(cascade_printf<1)
     {
         //pid任务是1ms，但是1msvofa打印一次四个数据会太快了，这里实现了3ms打印一次’
@@ -68,6 +78,8 @@ void pid_task0(void)
         //CAN_SINGLECHIP_SendMessage((int)angle,(int)pos_pid.variables.target,speed);
         //usart_printf("%.2f,%d\n",vec_pid.variables.output.output_total,Motor1.offset_angle);
 
+
     }
+
 
 }

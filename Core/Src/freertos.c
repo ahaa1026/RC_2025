@@ -32,7 +32,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint32_t Angle;
+uint32_t Speed;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -151,11 +152,17 @@ void pid_task(void *argument)
   for(;;)
   {
     CurrentTime1=xTaskGetTickCount();
-    //pid_task0();
-    //CAN_CMD_MOTOR_CONTROL(0.0f,5.0f,0.0f,0.0f,5.0f,Control_ID1);
+    pid_task0();
+    //CAN_CMD_MOTOR_CONTROL(0.0f,1.0f,0.0f,0.0f,1.0f,Control_ID1);
 
+    //这个是成功的位置
+    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);
+
+    //Angle=CAN_GetDeep_Motor(1);
+    //Speed=CAN_GetDeep_Motor(2);
     //usart_printf("%d\n",123);
     vTaskDelayUntil(&CurrentTime1,5);
+    //usart_printf("%d,%d\n",Angle,Speed);
 
   }
   /* USER CODE END pid_task */
@@ -165,4 +172,3 @@ void pid_task(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
-
