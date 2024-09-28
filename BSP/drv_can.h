@@ -92,12 +92,12 @@ typedef struct {
 #define Control_ID5    5 + Control_Motor_ID
 #define Control_ID6    6 + Control_Motor_ID
 
-#define Disable_ID1_Receive 1 + Disable_Motor_ID + 0x10
-#define Disable_ID2_Receive 2 + Disable_Motor_ID + 0x10
-#define Disable_ID3_Receive 3 + Disable_Motor_ID + 0x10
-#define Disable_ID4_Receive 4 + Disable_Motor_ID + 0x10
-#define Disable_ID5_Receive 5 + Disable_Motor_ID + 0x10
-#define Disable_ID6_Receive 6 + Disable_Motor_ID + 0x10
+#define Disable_ID1_Receive  1 + Disable_Motor_ID + 0x10
+#define Disable_ID2_Receive  2 + Disable_Motor_ID + 0x10
+#define Disable_ID3_Receive  3 + Disable_Motor_ID + 0x10
+#define Disable_ID4_Receive  4 + Disable_Motor_ID + 0x10
+#define Disable_ID5_Receive  5 + Disable_Motor_ID + 0x10
+#define Disable_ID6_Receive  6 + Disable_Motor_ID + 0x10
 
 #define Able_ID1_Receive    1 + Able_Motor_ID + 0x10
 #define Able_ID2_Receive    2 + Able_Motor_ID + 0x10
@@ -127,7 +127,7 @@ void CAN_SendCurrent(int16_t current1,int16_t current2,int16_t current3,int16_t 
 void CAN_CMD_MOTOR_ENABLE(uint32_t stdid);
 void CAN_CMD_MOTOR_DISABLE(uint32_t stdid);
 void CAN_SEND_DATA(uint16_t id, int16_t current);
-uint32_t CAN_GetDeep_Motor(int8_t Which_x);
+float CAN_GetDeep_Motor(int8_t Which_x);
 void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
                            float Kp,float Kd,float TargetTorque,float stdid);
 

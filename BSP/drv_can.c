@@ -12,7 +12,7 @@ extern int16_t speed;
 uint8_t single;
 #include <string.h>
 ControlData FeedBack_Data;
-ControlData Final_Data;
+FinalData Final_Data;
 //滤波器初始化函数
 //这里先会熟练写代码，具体原理还需要对can的滤波器再探索一下
 void CAN_Filter_Init(CAN_HandleTypeDef* hcan)
@@ -295,6 +295,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 
 		if (HAL_Status == HAL_OK)//在这里接收数据
 		{
+			//usart_printf("%d\n",123);
 
 			if (RxMeg.StdId == CAN_REC_ID1)//接收到的是电机1的数据
 			{
@@ -359,17 +360,21 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 
             if (RxMeg.StdId == Control_ID1_Receive)
             {
+
+            	//usart_printf("%d\n",123);
             	FeedBack_Data.Angle = recvData[0] | recvData[1] << 8 | ((recvData[2] << 16) & 0x0FFFFF);
             	FeedBack_Data.Speed = ((recvData[2] >> 4) & 0x0F) | recvData[3] << 4 | recvData[4] << 12;
             	FeedBack_Data.Torque = recvData[5] | recvData[6] << 8;
             	FeedBack_Data.Temperature_flag = recvData[7] & 0x01;
             	FeedBack_Data.Temperature = (recvData[7] >> 1) & 0x7F;
 
-            	Final_Data.Angle = 80.0f * FeedBack_Data.Angle / 1048575 -40;
+            	Final_Data.Angle = 80.0f * FeedBack_Data.Angle / 1048575.0f -40;
             	Final_Data.Speed = 80.0f * FeedBack_Data.Speed / 1048575 -40;
             	Final_Data.Torque = 80.0f * FeedBack_Data.Torque / 65535 -40;
             	Final_Data.Temperature_flag = FeedBack_Data.Temperature_flag;
-            	Final_Data.Temperature = (uint8_t )(220 * FeedBack_Data.Temperature / 127 - 20);
+            	Final_Data.Temperature = (uint8_t)(220 * FeedBack_Data.Temperature / 127 - 20);
+
+            	//usart_printf("%d,%d\n",Final_Data.Angle,Final_Data.Speed);
 
             	return;
 
@@ -415,7 +420,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 }
 
 
-uint32_t CAN_GetDeep_Motor(int8_t Which_x)
+float CAN_GetDeep_Motor(int8_t Which_x)
 {
 	switch (Which_x)
 	{
