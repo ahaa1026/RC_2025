@@ -67,6 +67,9 @@ typedef struct {
     uint8_t Temperature;
 }FinalData;
 
+
+#define DGM_ID  0x001
+
 #define Disable_Motor_ID 0x020 //1<<5
 #define Able_Motor_ID    0x040 //2<<5
 #define Control_Motor_ID 0x080 //4<<5

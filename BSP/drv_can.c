@@ -296,6 +296,42 @@ void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
 
 }
 
+void DGM_SET_TARGET_VELOCITY(CAN_HandleTypeDef *_hcan, uint16_t dgm_id, float target_speed)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 1;
+	uint8_t send_data[8];
+
+	tx_msg.StdId = DGM_ID;	         // id赋值
+	tx_msg.IDE = CAN_ID_STD;                     // 标准帧
+	tx_msg.RTR = CAN_RTR_DATA;                     //
+	tx_msg.DLC = 0x00;                     // 8字节数据帧
+
+	txdata.data_f = target_speed;
+
+	CAN_TxMessage(&hcan1, &tx_msg, TxData);
+
+}
+/**
+ * @brief  DGM电机发送使能命令
+ */
+void DGM_CAN_CMD_MOTOR_ENABLE(CAN_HandleTypeDef *_hcan, uint16_t dgm_id)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 1;
+	uint8_t send_data[8];
+
+	tx_msg.StdId = DGM_ID;	         // id赋值
+	tx_msg.IDE = CAN_ID_STD;                     // 标准帧
+	tx_msg.RTR = CAN_RTR_DATA;                     //
+	tx_msg.DLC = 0x00;                     // 8字节数据帧
+
+	CAN_TxMessage(&hcan1, &tx_msg, send_data);
+
+}
+
+
+
 
 //接收回调函数，虚函数，_weak，我在这里重新定义
 
