@@ -25,6 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
+#include "DeepMotor.h"
 #include "debug.h"
 #include "pid_task.h"
 #include "drv_can.h"
@@ -34,6 +36,13 @@
 /* USER CODE BEGIN PTD */
 uint32_t Angle;
 uint32_t Speed;
+
+extern int16_t x ;
+extern int16_t y ;
+
+float x_y;
+float x2_y2;
+float theta;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -64,6 +73,13 @@ const osThreadAttr_t PidTask_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for PosCalculating */
+osThreadId_t PosCalculatingHandle;
+const osThreadAttr_t PosCalculating_attributes = {
+  .name = "PosCalculating",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -72,6 +88,7 @@ const osThreadAttr_t PidTask_attributes = {
 
 void StartDefaultTask(void *argument);
 void pid_task(void *argument);
+void pos_calculating(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -107,6 +124,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of PidTask */
   PidTaskHandle = osThreadNew(pid_task, NULL, &PidTask_attributes);
+
+  /* creation of PosCalculating */
+  PosCalculatingHandle = osThreadNew(pos_calculating, NULL, &PosCalculating_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -152,15 +172,18 @@ void pid_task(void *argument)
   for(;;)
   {
     CurrentTime1=xTaskGetTickCount();
-    pid_task0();
+
+    //CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID2);
+    motor_task();
+
+
     //CAN_CMD_MOTOR_CONTROL(0.0f,1.0f,0.0f,0.0f,1.0f,Control_ID1);
 
     //这个是成功的位置
     /*    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);
-云深处最终版：串口通信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)
-的返回值为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实现
+    云深处最终版：串口信解决：发现是串口线没有连接好的问题；注意这个函数的五个参数的顺序：注意float CAN_GetDeep_Motor(int8_t Which_x)
+    的返回为float类型；还有一个未解决的问题，就是串口接收的方式发送目标位置的话非常不稳定基本上无法实
     */
-    CAN_CMD_MOTOR_CONTROL(3.14f,0.0f,50.0f,5.0f,0.0f,Control_ID1);
 
     //Angle=CAN_GetDeep_Motor(1);
     //Speed=CAN_GetDeep_Motor(2);
@@ -172,7 +195,48 @@ void pid_task(void *argument)
   /* USER CODE END pid_task */
 }
 
+/* USER CODE BEGIN Header_pos_calculating */
+/**
+* @brief Function implementing the PosCalculating thread.
+* @param argument: Not used
+* @retval None
+*/
+
+/* USER CODE END Header_pos_calculating */
+void pos_calculating(void *argument)
+{
+  /* USER CODE BEGIN pos_calculating */
+  portTickType CurrentTime2;
+
+  /* Infinite loop */
+  for(;;)
+  {
+    CurrentTime2=xTaskGetTickCount();
+    //x = CAN_SINGLECHIP_POS_X_Y(1);
+    //y = CAN_SINGLECHIP_POS_X_Y(2);
+
+
+
+    x2_y2 = pow(x,2)+pow(y,2);//71289
+    x_y = sqrt(x2_y2);//267
+
+    theta = acos(x/x_y) - acos((x2_y2 + 801)/270/x_y);
+
+    if(y<0)
+    {
+      theta=-theta;
+    }
+
+    usart_printf("%.2f\n",theta);
+
+    vTaskDelayUntil(&CurrentTime2,5);
+
+  }
+  /* USER CODE END pos_calculating */
+}
+
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+

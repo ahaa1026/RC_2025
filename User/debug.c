@@ -64,16 +64,21 @@ void Set_Target_UartIrqHandler(UART_HandleTypeDef *huart)
         }
     }
 }
+int16_t x;
+int16_t y;
 
 
 
 void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
 {
-    float index=0;
-    float index_vec_kp=0;
+    float index_x;
+    float index_y;
     float index_vec_ki=0;
     float index_pos_kp=0;
     float index_pos_kd=0;
+
+    CAN_CMD_MOTOR_ENABLE(Able_ID2);
+
     HAL_UART_DMAStop(huart);//停止本次DMA传输
 
     //将串口收到的数据进行处理，新的数组存放要传入的数据
@@ -101,13 +106,23 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
         //{
 
                 //index=strtof(debugRvData,&debugRvAll[8]);
-                index=strtof(debugRvData,&pEnd);//字符串转float类型，指定位置转为float类型（解决联合体的问题）
-    /*
-                index_vec_kp=strtof(debugRvData_vec_kp,&pEnd);//期望速度转为float类型（解决联合体的问题）
-                index_vec_ki=strtof(debugRvData_vec_ki,&pEnd);//期望速度转为float类型（解决联合体的问题）
+                index_x=strtof(debugRvData,&pEnd);//字符串转float类型，指定位置转为float类型（解决联合体的问题）
+
+                index_y=strtof(debugRvData_vec_kp,&pEnd);//期望速度转为float类型（解决联合体的问题）
+      /*             index_vec_ki=strtof(debugRvData_vec_ki,&pEnd);//期望速度转为float类型（解决联合体的问题）
                 index_pos_kp=strtof(debugRvData_pos_kp,&pEnd);//期望速度转为float类型（解决联合体的问题）
                 index_pos_kd=strtof(debugRvData_pos_kd,&pEnd);//期望速度转为float类型（解决联合体的问题）
 */
+
+
+    x = (int)index_x;
+    y = (int)index_y;
+    //CAN_SINGLECHIP_SEND(index_x,index_y);
+
+
+
+
+
 
 
                 //计算公式：ramp_target_step为斜坡函数的步长，ramp_target_step/360为转数，ramp_target_step/360/（ramp_target_time+1）/（pid——task的任务周期）为转速，单位为r/ms
@@ -124,7 +139,7 @@ void Set_Target_UartIdleCallback(UART_HandleTypeDef *huart)
     setPidTarget(&pos_pid,index);//设置pid的外环位置环目标
 */
 
-    CAN_CMD_MOTOR_CONTROL(index,0.0f,50.0f,5.0f,0.0f,Control_ID1);
+    //CAN_CMD_MOTOR_CONTROL(index,0.0f,50.0f,5.0f,0.0f,Control_ID1);
 
 
     //CAN_SINGLECHIP_SendVal(index);

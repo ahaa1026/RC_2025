@@ -116,6 +116,8 @@ typedef struct {
 float Angle_Consecutive(float angle_now);
 float Angle_Consecutive1(float angle_now1);
 void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed);
+int16_t CAN_SINGLECHIP_POS_X_Y(int8_t Which_x);
+void CAN_SINGLECHIP_SEND(int16_t x,int16_t y);
 
 void CAN_All_Init(void);
 void CAN_Filter_Init(CAN_HandleTypeDef* hcan);

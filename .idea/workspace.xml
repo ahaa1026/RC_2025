@@ -35,13 +35,7 @@
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://D:/RC2025/Application/pid_task.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/BSP/drv_can.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/BSP/drv_can.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/Core/Src/freertos.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/Core/Src/main.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/User/debug.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/RC2025/User/init.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../gcc-arm-none-eabi-10.3-2021.10-win32/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/math.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="PerforceDirect.Settings">
     <option name="CHARSET" value="无" />
@@ -70,8 +64,8 @@
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Deepmotor-master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;云深处&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/___2023/gimbal_2023&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -94,8 +88,13 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="OCD RC2025" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="RC2025" TARGET_NAME="RC2025.elf" CONFIG_NAME="Debug-MinGW" version="1" RUN_TARGET_PROJECT_NAME="RC2025" RUN_TARGET_NAME="RC2025.elf">
-      <openocd version="1" gdb-port="3333" telnet-port="4444" board-config="D:\RC2025\stlink.cfg" reset-type="INIT" download-type="UPDATED_ONLY">
+      <openocd version="1" gdb-port="3333" telnet-port="4444" board-config="D:\RC2025\daplink_F4.cfg" reset-type="INIT" download-type="UPDATED_ONLY">
         <debugger kind="GDB" isBundled="true" />
       </openocd>
       <method v="2">
@@ -125,6 +124,7 @@
       <workItem from="1727178213009" duration="8776000" />
       <workItem from="1727359436022" duration="1829000" />
       <workItem from="1727361575052" duration="1072000" />
+      <workItem from="1727836475796" duration="13135000" />
     </task>
     <task id="LOCAL-00001" summary="实现了单片机之间互相发送数据（uint_16收发)，注意不要在can的接收回调函数里直接发，3508参数还有点不太完美">
       <option name="closed" value="true" />
@@ -172,7 +172,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="origin/云深处" />
                       </list>
                     </value>
                   </entry>

@@ -5,7 +5,7 @@ CAN_TxHeaderTypeDef TxMeg;
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
 MotorMsg Motor1,Motor2,Motor3,Motor4;
-uint16_t pos_target;
+
 extern Pid pos_pid;
 extern float angle;
 extern int16_t speed;
@@ -240,6 +240,29 @@ void CAN_SINGLECHIP_SendMessage(int16_t angle,int16_t pos_target,int16_t speed)
 }
 
 
+void CAN_SINGLECHIP_SEND(int16_t x,int16_t y)
+{
+	CAN_TxHeaderTypeDef tx_msg;
+	uint32_t send_mail_box = 1;
+	uint8_t send_data[8];
+	tx_msg.StdId = CAN_SINGLECHIP;
+	tx_msg.IDE = CAN_ID_STD;
+	tx_msg.RTR = CAN_RTR_DATA;
+	tx_msg.DLC = 0x04;
+
+	send_data[0] = (x >> 8);
+	send_data[1] = x & 0xff;
+
+	send_data[2] = (y >> 8);
+	send_data[3] = y;
+
+	CAN_TxMessage(&hcan2, &tx_msg, send_data);
+
+}
+
+
+
+
 void CAN_CMD_MOTOR_CONTROL(float TargetAngle,float TargetSpeed,
 						   float Kp,float Kd,float TargetTorque,float stdid)
 {
@@ -358,7 +381,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 			}
 
 
-            if (RxMeg.StdId == Control_ID1_Receive)
+            if (RxMeg.StdId == Control_ID2_Receive)
             {
 
             	//usart_printf("%d\n",123);
@@ -390,9 +413,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 		{
 			if(RxMeg.StdId == CAN_SINGLECHIP)
 			{
-				pos_target = (int16_t)(recvData[0] << 8 | recvData[1]);
-				//single = recvData[2];
-				setPidTargetwithRamp(&pos_pid,pos_target);
+				//x = (int16_t)(recvData[0] << 8 | recvData[1]);
+				//y = (int16_t)(recvData[2] << 8 | recvData[3]);
+			//single = recvData[2];
 				//return;
 
 				//memset(pos_target,0,16); //清零接收缓冲区.为下次接收做准备
@@ -418,6 +441,28 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 
 	}
 }
+
+
+/*
+int16_t CAN_SINGLECHIP_POS_X_Y(int8_t Which_x)
+{
+	switch (Which_x)
+	{
+	case 1:
+		{
+			return x;
+		}
+
+	case 2:
+		{
+			return y;
+
+		}
+	}
+
+}
+*/
+
 
 
 float CAN_GetDeep_Motor(int8_t Which_x)

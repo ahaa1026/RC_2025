@@ -28,7 +28,7 @@ void roboinit()
 {
 //6020串级pid参数
 
-    CAN_CMD_MOTOR_ENABLE(Able_ID1);
+    //CAN_CMD_MOTOR_ENABLE(Able_ID2);
     PidInit(&vec_pid,35,0.015,0,15000,25000,3000,Normal_state);//60.5
     //setPidTargetwithRamp(&pos_pid,CAN_GetMotorAngel(1)/8191.0f*360.0f);
     //angle = 0;

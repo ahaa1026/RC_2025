@@ -123,7 +123,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    //usart_printf("%d\n",123);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

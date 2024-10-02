@@ -47,7 +47,7 @@ void pid_task0(void)
     */
 
     angle += cnt_40*40;
-    usart_printf("%.2f\n",angle);
+    //usart_printf("%.2f\n",angle);
 
     //speed=CAN_GetMotorVelocity(2);
 /*
